@@ -22,7 +22,7 @@ void start(File* file)
 	printf("7.) Exit\n");
 	printf("\n >> ");
 
-  	scanf("%d", &choice);
+	scanf("%d", &choice);
 
 	switch (choice)
 	{
@@ -82,7 +82,7 @@ void insertScreen(File* file)
 
 	if (choice == 1)
 	{
-		pos = lineNum ;
+		pos = lineNum;
 	}
 	else if (choice == 2)
 	{
@@ -105,9 +105,9 @@ void insertScreen(File* file)
 			String* line = buf->lines[j];
 
 			// condition to push last element to start of next buffer
-			if (j == BUFFER_CAPACITY-1) 
+			if (j == BUFFER_CAPACITY - 1)
 			{
-				file->buffer->buffers[i+1]->lines[0] = line;
+				file->buffer->buffers[i + 1]->lines[0] = line;
 			}
 			else
 			{
@@ -183,7 +183,7 @@ void deleteScreen(File* file)
 		bool breakMe = false;
 		Buffer* buf = file->buffer->buffers[i];
 		int j = i == bufferIndex ? linePos : 0;
-		
+
 		for (; j < buf->length; j++)
 		{
 			if (i == file->buffer->length - 1 && j == buf->length - 1) {
@@ -210,7 +210,7 @@ void deleteScreen(File* file)
 		file->buffer->length -= 1;
 	}
 
-//	freeString(tmpString);
+	//	freeString(tmpString);
 
 	printf("\n -- line at pos '%d' is deleted --", lineNum);
 	printf("\n\n Enter your choice :- \n\n");
@@ -263,7 +263,7 @@ void searchScreen(File* file)
 	readString(newString);
 	//addChar(newString, '\n');
 
-	int loc[] = {-1, -1}; // x,y
+	int loc[] = { -1, -1 }; // x,y
 	for (int i = 0; i < file->buffer->length;i++)
 	{
 		Buffer* buf = file->buffer->buffers[i];
@@ -280,8 +280,8 @@ void searchScreen(File* file)
 				breakMe = true;
 				break;
 			}
-			if (breakMe) break;
 		}
+		if (breakMe) break;
 	}
 
 	if (loc[0] != -1)
@@ -289,13 +289,13 @@ void searchScreen(File* file)
 		int charNum = loc[0];
 		int lineNum = loc[1];
 		printf(
-			"\nThe search string '%s' found at line number '%d' in position '%d'", 
-			newString->characters, 
-			lineNum, 
+			"\nThe search string '%s' found at line number '%d' in position '%d'",
+			newString->characters,
+			lineNum,
 			charNum
 		);
 		printf("\n\n%d |%s", lineNum, _line->characters);
-		if (_line->characters[_line->length] != '\n') printf("\n");
+		if (_line->characters[_line->length-1] != '\n') printf("\n");
 		for (int i = 0; i < charNum + (lineNum > 9 ? 4 : 3); i++) printf(" ");
 		printf("^\n");
 	}
@@ -357,11 +357,11 @@ void editScreen(File* file)
 	addChar(newString, '\n');
 
 	int bufferIndex = lineNum / BUFFER_CAPACITY;
-	int linePos = lineNum-1 % BUFFER_CAPACITY;
+	int linePos = lineNum - 1 % BUFFER_CAPACITY;
 
 	String* oldString = file->buffer->buffers[bufferIndex]->lines[linePos];
 	file->buffer->buffers[bufferIndex]->lines[linePos] = newString;
-	
+
 	printf("\n --- line number %d is edited --- \n");
 	printf(" old : '%s'\n", oldString->characters);
 	printf(" new : '%s'\n", newString->characters);
