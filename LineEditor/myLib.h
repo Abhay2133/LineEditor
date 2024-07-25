@@ -62,7 +62,7 @@ void start(File*);
 void printBuffer(Buffer* buffer);
 void addLineToBuffer(Buffer* buffer, String* line);
 bool isBufferFull(Buffer* buffer);
-void deleteBuffer(Buffer* buffer);
+void freeBuffer(Buffer* buffer);
 Buffer* createBuffer();
 
 // string functions
@@ -75,7 +75,7 @@ void readString(String* dest);
 
 // FileBuffer functions
 FileBuffer* createFileBuffer();
-void deleteFileBuffer(FileBuffer* );
+void freeFileBuffer(FileBuffer* );
 void addLineToFileBuffer(FileBuffer* buffer, String* line);
 void extendFileBuffer(FileBuffer* filebuffer, int newcapacity);
 void printFileBuffer(FileBuffer* fb, int lines);

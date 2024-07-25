@@ -30,4 +30,13 @@ void test_input_string()
 
 }
 
+void test_getPath()
+{
+	int argc = 3;
+	char* argv[] = { "LineEditor.exe", "Hlelo", "World" };
+
+	String* path = createString("");
+	getPath(argc, argv, path);
+	printf("%s", path->characters);
+}
 

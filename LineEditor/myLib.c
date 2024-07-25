@@ -20,6 +20,7 @@ String* createString(char* str)
 
 void freeString(String* string)
 {
+	if (string == NULL) return;
 	free(string->characters);
 	free(string);
 }
@@ -54,17 +55,19 @@ void getPath(int argc, char* argv[], String* path)
 		char* dirname = argv[2];
 		char* filename = argv[1];
 		int dirLength = strlen(dirname);
+		int fileLength = strlen(filename);
 		int endsWithSep = dirname[dirLength - 1] == PATH_SEPARATOR ? 1 : 0;
-
-		const int newPathLength = strlen(dirname) + strlen(argv[1]) + (endsWithSep ? 0 : 1);
-		char* newPath = (char*)calloc(newPathLength + 1, sizeof(char));
-
-		strcpy(newPath,/*  newPathLength,*/ dirname); // copy 'dirname' to 'newPath'
-		if (!endsWithSep)
-			newPath[dirLength] = PATH_SEPARATOR;	// add a seperator mannual if needed
-		strcat(newPath,/* newPathLength, */filename); // concatenate the 'filename' to 'newPath'
-
-		path = createString(newPath);
+		
+		clearString(path);
+		for (int i = 0; i < dirLength; i++)
+		{
+			addChar(path, dirname[i]);
+		}
+		if (!endsWithSep) addChar(path, PATH_SEPARATOR);
+		for (int i = 0; i < fileLength; i++)
+		{
+			addChar(path, filename[i]);
+		}
 		return;
 	}
 
@@ -74,9 +77,7 @@ void getPath(int argc, char* argv[], String* path)
 	printf("  LineEditor.exe\n");
 	printf("  LineEditor.exe <filename>\n");
 	printf("  LineEditor.exe <filename> <directory>\n");
-	exit(400);
-
-
+	
 }
 
 void printBuffer(Buffer* buffer)
@@ -112,7 +113,7 @@ bool isBufferFull(Buffer* buffer)
 	return buffer->length >= BUFFER_CAPACITY;
 }
 
-void deleteBuffer(Buffer* buffer)
+void freeBuffer(Buffer* buffer)
 {
 	for (int i = 0; i < buffer->length; i++)
 	{
@@ -186,12 +187,13 @@ FileBuffer* createFileBuffer()
 	return filebuffer;
 }
 
-void deleteFileBuffer(FileBuffer* fb)
+void freeFileBuffer(FileBuffer* fb)
 {
-	for (int i = 0; i < fb->length; i++)
+	for (int i = 0; i < fb->capacity; i++)
 	{
+		freeBuffer(fb->buffers[i]);
 	}
-
+	free(fb);
 }
 
 void addLineToFileBuffer(FileBuffer* filebuffer, String* line)

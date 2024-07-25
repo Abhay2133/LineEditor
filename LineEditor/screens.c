@@ -280,27 +280,7 @@ void searchScreen(File* file)
 				breakMe = true;
 				break;
 			}
-			/*for (int k = 0; k < line->length; k++)
-			{
-				bool _isFound = false;
-				if (newString->characters[0] == line->characters[k])
-				{
-					bool isFound = true;
-					for (int l = 0; l < newString->length ; l++)
-					{
-						if (newString->characters[l] != line->characters[k + l] || k < line->length)
-						{
-							isFound = false;
-							break;
-						}
-					}
-					_isFound = isFound;
-				}
-				if (_isFound)
-				{
-
-				}
-			}*/
+			if (breakMe) break;
 		}
 	}
 
@@ -315,6 +295,7 @@ void searchScreen(File* file)
 			charNum
 		);
 		printf("\n\n%d |%s", lineNum, _line->characters);
+		if (_line->characters[_line->length] != '\n') printf("\n");
 		for (int i = 0; i < charNum + (lineNum > 9 ? 4 : 3); i++) printf(" ");
 		printf("^\n");
 	}

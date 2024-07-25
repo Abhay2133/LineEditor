@@ -9,18 +9,23 @@
 #include "test.h"
 int main(int argc, char* argv[])
 {
-	//test_input_string();
+	//test_getPath();
 	//return 0;
-	String* path = createString("C:\\Users\\abhay\\source\\repos\\LineEditor\\LineEditor\\file.txt");
+	String* path = createString("file.txt");
 	File* file = (File*)malloc(sizeof(File));
 	// for (int i = 0; i < argc; i++)
 	// 	printf("%s\n", argv[i]);
 
 	getPath(argc, argv, path);
+
+	printf("argc : %d\n", argc);
 	printf("path : %s", path->characters);
 
+	//return 0;
 	openFile(file, path);
 	start(file);
+
+	//closeFile(file);
 
 	return 0;
 }
@@ -58,5 +63,11 @@ void openFile(File* file, struct String* path)
 		addLineToFileBuffer(file->buffer, currLine);
 	}
 	fclose(fp);
+}
+
+void closeFile(File* file)
+{
+	freeFileBuffer(file->buffer);
+	free(file);
 }
 
